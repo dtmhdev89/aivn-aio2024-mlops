@@ -39,7 +39,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t <your_dockerhub_userna
 Manager Node (manager vps/ec2)
 
 ```bash
-docker swarm init
+docker swarm init --advertise-addr <public_ip>
 docker node ls 
 ```
 
