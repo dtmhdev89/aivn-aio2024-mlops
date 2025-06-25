@@ -23,6 +23,14 @@ jobs:
       with:
         python-version: ${{vars.GH_PYTHON_VERSION}}
     
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('Week-08-CICD/backend/requirements.txt') }}
+        restore-keys: |
+            ${{ runner.os }}-pip-
+    
     - name: Install dependencies
       env:
         MLFLOW_VERSION: '2.19.0'
