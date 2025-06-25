@@ -1,12 +1,11 @@
 name: CI Docker Builder
 
 on:
-    push:
+    workflow_run:
         branches:
             - main
             - "ci_*"
-    workflow_run:
-        workflows: ["CI pipeline"]
+        workflows: [CI pipeline]
         types:
             - completed
 
