@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-22.04
     defaults:
         run:
-            working_directory: Week-08-CICD/backend
+            working-directory: Week-08-CICD/backend
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
