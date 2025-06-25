@@ -31,5 +31,7 @@ jobs:
         - name: Build and Push
           uses: docker/build-push-action@v6
           with:
+            context: .
             push: true
             tags: ${{ vars.GH_BACKEND_IMAGE }}
+            working-directory: Week-08-CICD/backend
