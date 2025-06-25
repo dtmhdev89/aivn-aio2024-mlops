@@ -10,6 +10,9 @@ env:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    defaults:
+        run:
+            working_directory: Week-08-CICD/backend
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -23,7 +26,6 @@ jobs:
       env:
         MLFLOW_VERSION: '2.19.0'
       run: |
-        cd Week-08-CICD
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install mlflow==${{env.MLFLOW_VERSION}}
