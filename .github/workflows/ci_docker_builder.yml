@@ -31,7 +31,7 @@ jobs:
         - name: Build and Push
           uses: docker/build-push-action@v6
           with:
-            context: ${{ github.workspace }}/Week-08-CICD/backend/Dockerfile
+            context: ${{ github.workspace }}/Week-08-CICD/backend
             file: Dockerfile
             push: true
             tags: ${{ vars.GH_BACKEND_IMAGE }}
