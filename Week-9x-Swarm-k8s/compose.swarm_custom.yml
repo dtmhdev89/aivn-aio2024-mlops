@@ -1,0 +1,78 @@
+services:
+  yolov8-api:
+    image: hieudev89/yolo-be:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - yolov8-app-data:/app
+    environment:
+      - MODEL_PATH=yolov8n.pt
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy: 
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '512M'
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+          
+      # placement: # persistent storage: docker node update --label-add persistence=true <NODE_ID>
+      #   constraints:
+      #     - node.labels.persistence == true
+      
+      update_config: # Zero-Downtime Deployments
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+
+    networks:
+      - swarm-net
+
+  yolov8-frontend:
+    image: hieudev89/yolo-fe:latest
+    ports:
+      - "7860:7860"
+    environment:
+      - BACKEND_URL=http://yolov8-api:8000
+    depends_on:
+      - yolov8-api
+    deploy: 
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '512M'
+        reservations:
+          cpus: '0.25'
+          memory: 125M
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+    networks:
+      - swarm-net
+  
+volumes:
+  yolov8-app-data:
+
+networks: 
+  swarm-net:
+    driver: overlay

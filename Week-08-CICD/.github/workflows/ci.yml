@@ -1,0 +1,29 @@
+name: CI pipeline
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VERSION: '1.0.0'
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      env:
+        MLFLOW_VERSION: '2.19.0'
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install mlflow==${{env.MLFLOW_VERSION}}
