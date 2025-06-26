@@ -35,6 +35,6 @@ jobs:
           uses: docker/build-push-action@v6
           with:
             context: Week-08-CICD/backend
-            file: Dockerfile
+            file: Week-08-CICD/backend/Dockerfile
             push: true
             tags: ${{ vars.GH_BACKEND_IMAGE }}
